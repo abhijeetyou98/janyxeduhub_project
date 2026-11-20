@@ -1030,8 +1030,8 @@ figure { margin: 0; }
 }
 
 @media (max-width: 1200px) {
-    .nav, .header__cta { display: none; }
-    .burger { display: block; }
+    .nav, .header__cta, .header__btn, .header__phone { display: none !important; }
+    .burger { display: flex !important; }
     .hide-md { display: none !important; }
 }
 
@@ -2181,4 +2181,187 @@ html, body {
 .footer__bottom em {
   color: #D4AF37 !important;
   font-style: italic !important;
+}
+
+/* ==========================================================================
+   SERVICES (LEARNING MODES) HIGH-CONTRAST & CARD STYLING FIX
+   ========================================================================== */
+#services,
+.services {
+  position: relative !important;
+  background: radial-gradient(100% 100% at 50% 0%, #0F2A4A 0%, #07142A 100%) !important;
+  color: #FFFFFF !important;
+  padding: 90px 0 !important;
+  overflow: hidden !important;
+}
+
+#services .eyebrow,
+.services .eyebrow {
+  color: #F4D368 !important;
+  font-weight: 700 !important;
+  letter-spacing: 0.12em !important;
+  text-transform: uppercase !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  gap: 8px !important;
+  font-size: 13px !important;
+}
+
+#services .section-title,
+.services .section-title {
+  color: #FFFFFF !important;
+  font-family: var(--font-head) !important;
+  font-size: clamp(32px, 4.2vw, 52px) !important;
+  font-weight: 800 !important;
+  line-height: 1.15 !important;
+  letter-spacing: -0.02em !important;
+  margin: 14px 0 16px !important;
+}
+
+#services .section-title em,
+.services .section-title em {
+  color: #F4D368 !important;
+  font-family: var(--font-serif) !important;
+  font-style: italic !important;
+  font-weight: 400 !important;
+}
+
+#services .section-sub,
+.services .section-sub {
+  color: #E2E8F0 !important;
+  font-size: 17px !important;
+  max-width: 600px !important;
+  margin: 0 auto !important;
+  line-height: 1.6 !important;
+}
+
+#services .services__grid,
+.services .services__grid {
+  display: grid !important;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)) !important;
+  gap: 28px !important;
+  margin-top: 48px !important;
+}
+
+#services .service-card,
+.services .service-card {
+  background: rgba(255, 255, 255, 0.05) !important;
+  border: 1px solid rgba(255, 255, 255, 0.14) !important;
+  border-radius: 22px !important;
+  padding: 36px 30px !important;
+  backdrop-filter: blur(14px) !important;
+  -webkit-backdrop-filter: blur(14px) !important;
+  transition: transform 0.35s ease, border-color 0.35s ease, box-shadow 0.35s ease, background 0.35s ease !important;
+  display: flex !important;
+  flex-direction: column !important;
+  position: relative !important;
+  box-shadow: 0 12px 35px rgba(0, 0, 0, 0.35) !important;
+}
+
+#services .service-card:hover,
+.services .service-card:hover {
+  transform: translateY(-8px) !important;
+  background: rgba(255, 255, 255, 0.09) !important;
+  border-color: rgba(212, 175, 55, 0.5) !important;
+  box-shadow: 0 24px 50px rgba(0, 0, 0, 0.5) !important;
+}
+
+#services .service-card__icon,
+.services .service-card__icon {
+  width: 60px !important;
+  height: 60px !important;
+  border-radius: 16px !important;
+  background: linear-gradient(135deg, rgba(212, 175, 55, 0.28) 0%, rgba(212, 175, 55, 0.08) 100%) !important;
+  border: 1px solid rgba(212, 175, 55, 0.4) !important;
+  display: grid !important;
+  place-items: center !important;
+  font-size: 24px !important;
+  color: #F4D368 !important;
+  margin-bottom: 22px !important;
+}
+
+#services .service-card__title,
+.services .service-card__title {
+  font-family: var(--font-head) !important;
+  font-size: 22px !important;
+  font-weight: 700 !important;
+  color: #FFFFFF !important;
+  margin: 0 0 12px 0 !important;
+  line-height: 1.25 !important;
+}
+
+#services .service-card__text,
+.services .service-card__text {
+  color: #CBD5E1 !important;
+  font-size: 15px !important;
+  line-height: 1.65 !important;
+  margin: 0 0 24px 0 !important;
+  flex-grow: 1 !important;
+}
+
+#services .service-card__list,
+.services .service-card__list {
+  list-style: none !important;
+  padding: 18px 0 0 0 !important;
+  margin: 0 !important;
+  display: grid !important;
+  gap: 12px !important;
+  border-top: 1px solid rgba(255, 255, 255, 0.1) !important;
+}
+
+#services .service-card__list li,
+.services .service-card__list li {
+  display: flex !important;
+  align-items: center !important;
+  gap: 10px !important;
+  font-size: 14.5px !important;
+  color: #F1F5F9 !important;
+}
+
+#services .service-card__list li i,
+.services .service-card__list li i {
+  color: #10B981 !important;
+  font-size: 14px !important;
+  flex-shrink: 0 !important;
+}
+
+/* ==========================================================================
+   WHY LEARN WITH US HIGH-CONTRAST FIX
+   ========================================================================== */
+#why,
+.why {
+  background: #08162B !important;
+  color: #FFFFFF !important;
+}
+
+#why .section-title,
+.why .section-title {
+  color: #FFFFFF !important;
+}
+
+#why .section-title em,
+.why .section-title em {
+  color: #F4D368 !important;
+  font-style: italic !important;
+}
+
+#why .section-sub,
+.why .section-sub {
+  color: #CBD5E1 !important;
+}
+
+#why .why-card,
+.why .why-card {
+  background: rgba(255, 255, 255, 0.04) !important;
+  border: 1px solid rgba(255, 255, 255, 0.12) !important;
+}
+
+#why .why-card__title,
+.why .why-card__title {
+  color: #FFFFFF !important;
+}
+
+#why .why-card__text,
+.why .why-card__text {
+  color: #CBD5E1 !important;
 }
