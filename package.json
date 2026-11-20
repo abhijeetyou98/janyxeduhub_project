@@ -1,0 +1,21 @@
+{
+  "name": "janyx-edu-hub",
+  "version": "1.0.0",
+  "description": "Official Website for JANYX EDU HUB - 1-on-1 Personalized Home Tuition & Live Online Classes",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "keywords": [
+    "janyx",
+    "education",
+    "tutoring",
+    "ib",
+    "igcse",
+    "cbse",
+    "online-classes",
+    "home-tuition"
+  ],
+  "author": "JANYX EDU HUB",
+  "license": "ISC"
+}
