@@ -1,0 +1,1128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>JANYX EDU HUB | Admin Control Panel</title>
+  <link rel="icon" type="image/jpeg" href="../assets/images/janyx-logo.jpg">
+
+  <!-- Google Fonts & Font Awesome -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+
+  <style>
+    :root {
+      --primary: #0B1B3D;
+      --primary-dark: #071228;
+      --secondary: #D4AF37;
+      --secondary-light: #FCF8E9;
+      --bg: #F8FAFC;
+      --surface: #FFFFFF;
+      --text: #1E293B;
+      --muted: #64748B;
+      --border: #E2E8F0;
+      --success: #10B981;
+      --warning: #F59E0B;
+      --danger: #EF4444;
+      --radius: 12px;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      background-color: var(--bg);
+      color: var(--text);
+      display: flex;
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    /* Sidebar */
+    .sidebar {
+      width: 260px;
+      background-color: var(--primary);
+      color: #FFFFFF;
+      display: flex;
+      flex-direction: column;
+      flex-shrink: 0;
+      transition: all 0.3s;
+      border-right: 1px solid rgba(212, 175, 55, 0.2);
+    }
+
+    .sidebar-brand {
+      padding: 24px 20px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+    }
+    .sidebar-brand img {
+      height: 44px;
+      border-radius: 6px;
+    }
+    .brand-text h2 {
+      font-size: 18px;
+      font-weight: 800;
+      letter-spacing: -0.02em;
+    }
+    .brand-text span {
+      font-size: 9px;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      color: var(--secondary);
+    }
+
+    .nav-links {
+      list-style: none;
+      padding: 20px 12px;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      flex-grow: 1;
+    }
+    .nav-item {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 12px 16px;
+      border-radius: 8px;
+      font-size: 14px;
+      font-weight: 600;
+      color: #CBD5E1;
+      text-decoration: none;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .nav-item:hover, .nav-item.active {
+      background-color: rgba(212, 175, 55, 0.15);
+      color: #FFFFFF;
+      border-left: 4px solid var(--secondary);
+    }
+    .nav-item i { width: 20px; text-align: center; font-size: 16px; color: var(--secondary); }
+
+    .sidebar-footer {
+      padding: 20px;
+      border-top: 1px solid rgba(255, 255, 255, 0.08);
+      font-size: 12px;
+      color: #94A3B8;
+    }
+    .sidebar-footer a {
+      color: var(--secondary);
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      margin-top: 8px;
+      font-weight: 600;
+    }
+
+    /* Main Content Area */
+    .main-wrapper {
+      flex-grow: 1;
+      display: flex;
+      flex-direction: column;
+      height: 100vh;
+      overflow-y: auto;
+    }
+
+    .top-header {
+      background-color: var(--surface);
+      border-bottom: 1px solid var(--border);
+      padding: 16px 32px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      position: sticky;
+      top: 0;
+      z-index: 10;
+    }
+    .header-title h1 {
+      font-size: 22px;
+      font-weight: 700;
+      color: var(--primary);
+    }
+    .header-title p {
+      font-size: 13px;
+      color: var(--muted);
+    }
+    .header-actions {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 9px 18px;
+      border-radius: 8px;
+      font-size: 13px;
+      font-weight: 600;
+      cursor: pointer;
+      border: none;
+      transition: all 0.2s;
+      text-decoration: none;
+    }
+    .btn-primary {
+      background-color: var(--primary);
+      color: #FFFFFF;
+    }
+    .btn-primary:hover { background-color: #162E61; }
+    .btn-gold {
+      background: linear-gradient(135deg, #ECC85B 0%, #D4AF37 50%, #B38F1E 100%);
+      color: #071228;
+      font-weight: 700;
+    }
+    .btn-gold:hover { opacity: 0.95; transform: translateY(-1px); }
+    .btn-outline {
+      background: transparent;
+      border: 1px solid var(--border);
+      color: var(--text);
+    }
+    .btn-outline:hover { background-color: var(--bg); }
+    .btn-danger {
+      background-color: #FEE2E2;
+      color: var(--danger);
+    }
+    .btn-danger:hover { background-color: #FCA5A5; }
+
+    /* Content Area */
+    .content-body {
+      padding: 32px;
+    }
+
+    .tab-pane {
+      display: none;
+    }
+    .tab-pane.active {
+      display: block;
+      animation: fadeIn 0.3s ease;
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(6px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* Metric Cards */
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 20px;
+      margin-bottom: 32px;
+    }
+    .stat-card {
+      background: var(--surface);
+      border-radius: var(--radius);
+      padding: 20px;
+      border: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.03);
+    }
+    .stat-icon {
+      width: 48px;
+      height: 48px;
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 20px;
+    }
+    .stat-icon.blue { background-color: #EFF6FF; color: #3B82F6; }
+    .stat-icon.gold { background-color: #FEF9C3; color: #CA8A04; }
+    .stat-icon.green { background-color: #ECFDF5; color: #10B981; }
+    .stat-icon.purple { background-color: #F5F3FF; color: #8B5CF6; }
+    .stat-info h3 { font-size: 24px; font-weight: 800; color: var(--primary); }
+    .stat-info p { font-size: 13px; color: var(--muted); font-weight: 500; }
+
+    /* Tables */
+    .card {
+      background: var(--surface);
+      border-radius: var(--radius);
+      border: 1px solid var(--border);
+      padding: 24px;
+      margin-bottom: 24px;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.03);
+    }
+    .card-head {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 20px;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+    .card-head h2 {
+      font-size: 18px;
+      font-weight: 700;
+      color: var(--primary);
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 13px;
+    }
+    th {
+      text-align: left;
+      padding: 12px 16px;
+      background-color: var(--bg);
+      color: var(--muted);
+      font-weight: 600;
+      border-bottom: 1px solid var(--border);
+    }
+    td {
+      padding: 14px 16px;
+      border-bottom: 1px solid var(--border);
+      color: var(--text);
+    }
+    tr:hover td {
+      background-color: #F8FAFC;
+    }
+
+    .badge {
+      display: inline-block;
+      padding: 3px 8px;
+      border-radius: 6px;
+      font-size: 11px;
+      font-weight: 700;
+      text-transform: uppercase;
+    }
+    .badge-new { background-color: #EFF6FF; color: #2563EB; }
+    .badge-contacted { background-color: #FEF3C7; color: #D97706; }
+    .badge-scheduled { background-color: #F3E8FF; color: #9333EA; }
+    .badge-enrolled { background-color: #D1FAE5; color: #059669; }
+
+    /* Forms */
+    .form-group {
+      margin-bottom: 16px;
+    }
+    .form-label {
+      display: block;
+      font-size: 13px;
+      font-weight: 600;
+      margin-bottom: 6px;
+      color: var(--text);
+    }
+    .form-control {
+      width: 100%;
+      padding: 10px 14px;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      font-family: inherit;
+      font-size: 13px;
+      background-color: #FFFFFF;
+    }
+    .form-control:focus {
+      outline: none;
+      border-color: var(--secondary);
+      box-shadow: 0 0 0 3px rgba(212, 175, 55, 0.2);
+    }
+    .form-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+    }
+
+    /* Modal */
+    .modal-backdrop {
+      position: fixed;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background: rgba(11, 27, 61, 0.6);
+      backdrop-filter: blur(4px);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      z-index: 1000;
+      padding: 20px;
+    }
+    .modal-backdrop.active { display: flex; }
+    .modal-box {
+      background: #FFFFFF;
+      border-radius: var(--radius);
+      max-width: 550px;
+      width: 100%;
+      padding: 24px;
+      box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
+      position: relative;
+    }
+    .modal-close {
+      position: absolute;
+      top: 18px; right: 18px;
+      font-size: 20px;
+      background: none; border: none; cursor: pointer; color: var(--muted);
+    }
+
+    /* Toast Notification */
+    .toast {
+      position: fixed;
+      bottom: 24px;
+      right: 24px;
+      background: var(--primary);
+      color: #fff;
+      padding: 12px 20px;
+      border-radius: 8px;
+      border-left: 4px solid var(--secondary);
+      box-shadow: 0 10px 15px -3px rgba(0,0,0,0.1);
+      font-size: 14px;
+      font-weight: 600;
+      display: none;
+      z-index: 2000;
+      animation: slideUp 0.3s ease;
+    }
+    @keyframes slideUp {
+      from { transform: translateY(20px); opacity: 0; }
+      to { transform: translateY(0); opacity: 1; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Sidebar -->
+  <aside class="sidebar">
+    <div class="sidebar-brand">
+      <img src="../assets/images/janyx-logo.jpg" alt="JANYX EDU HUB">
+      <div class="brand-text">
+        <h2>JANYX ADMIN</h2>
+        <span>NEXT. YOUTH. EXCELLENCE</span>
+      </div>
+    </div>
+
+    <ul class="nav-links">
+      <li class="nav-item active" data-tab="tab-dashboard">
+        <i class="fa-solid fa-gauge-high"></i>
+        <span>Dashboard</span>
+      </li>
+      <li class="nav-item" data-tab="tab-leads">
+        <i class="fa-solid fa-user-graduate"></i>
+        <span>Leads & Enquiries</span>
+      </li>
+      <li class="nav-item" data-tab="tab-books">
+        <i class="fa-solid fa-book-open"></i>
+        <span>Books & Study Material</span>
+      </li>
+      <li class="nav-item" data-tab="tab-activities">
+        <i class="fa-solid fa-calendar-check"></i>
+        <span>Activities & Events</span>
+      </li>
+      <li class="nav-item" data-tab="tab-tutors">
+        <i class="fa-solid fa-chalkboard-user"></i>
+        <span>Verified Tutors</span>
+      </li>
+      <li class="nav-item" data-tab="tab-settings">
+        <i class="fa-solid fa-sliders"></i>
+        <span>Site Information</span>
+      </li>
+    </ul>
+
+    <div class="sidebar-footer">
+      <p>Logged in as <strong>Admin</strong></p>
+      <a href="../index.html" target="_blank"><i class="fa-solid fa-arrow-up-right-from-square"></i> View Live Website</a>
+    </div>
+  </aside>
+
+  <!-- Main Wrapper -->
+  <div class="main-wrapper">
+    <!-- Top Bar -->
+    <header class="top-header">
+      <div class="header-title">
+        <h1 id="pageHeading">Dashboard Overview</h1>
+        <p id="pageSubHeading">Monitor student inquiries, manage study material, books, and activities.</p>
+      </div>
+      <div class="header-actions">
+        <a href="../index.html" target="_blank" class="btn btn-outline">
+          <i class="fa-solid fa-globe"></i> Visit Site
+        </a>
+        <button class="btn btn-gold" id="quickActionBtn">
+          <i class="fa-solid fa-plus"></i> Add New Entry
+        </button>
+      </div>
+    </header>
+
+    <!-- Content Body -->
+    <main class="content-body">
+
+      <!-- ==============================================
+           TAB 1: DASHBOARD OVERVIEW
+           ============================================== -->
+      <section id="tab-dashboard" class="tab-pane active">
+        <div class="stats-grid">
+          <div class="stat-card">
+            <div class="stat-icon blue"><i class="fa-solid fa-users"></i></div>
+            <div class="stat-info">
+              <h3 id="statTotalLeads">0</h3>
+              <p>Total Trial Enquiries</p>
+            </div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-icon gold"><i class="fa-solid fa-book-bookmark"></i></div>
+            <div class="stat-info">
+              <h3 id="statTotalBooks">0</h3>
+              <p>Active Books / Guides</p>
+            </div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-icon green"><i class="fa-solid fa-calendar-day"></i></div>
+            <div class="stat-info">
+              <h3 id="statTotalActivities">0</h3>
+              <p>Upcoming Activities</p>
+            </div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-icon purple"><i class="fa-solid fa-chalkboard-teacher"></i></div>
+            <div class="stat-info">
+              <h3 id="statTotalTutors">0</h3>
+              <p>Verified Mentors</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Recent Inquiries Table -->
+        <div class="card">
+          <div class="card-head">
+            <h2>Recent Student Enquiries (Direct from Website)</h2>
+            <button class="btn btn-outline" onclick="switchTab('tab-leads')">View All Leads</button>
+          </div>
+          <div style="overflow-x: auto;">
+            <table id="recentLeadsTable">
+              <thead>
+                <tr>
+                  <th>Date</th>
+                  <th>Student / Parent</th>
+                  <th>Contact</th>
+                  <th>Curriculum</th>
+                  <th>Grade</th>
+                  <th>Mode</th>
+                  <th>Status</th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+              <tbody id="recentLeadsBody">
+                <!-- Dynamically Populated -->
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+
+      <!-- ==============================================
+           TAB 2: LEADS & ENQUIRIES
+           ============================================== -->
+      <section id="tab-leads" class="tab-pane">
+        <div class="card">
+          <div class="card-head">
+            <h2>All Trial Class Inquiries & Admissions</h2>
+            <div style="display: flex; gap: 8px;">
+              <button class="btn btn-primary" onclick="openLeadModal()"><i class="fa-solid fa-plus"></i> New Inquiry</button>
+              <button class="btn btn-outline" onclick="exportLeadsCSV()"><i class="fa-solid fa-file-export"></i> Export CSV</button>
+            </div>
+          </div>
+          <div style="overflow-x: auto;">
+            <table>
+              <thead>
+                <tr>
+                  <th>ID</th>
+                  <th>Date</th>
+                  <th>Name</th>
+                  <th>Phone</th>
+                  <th>Curriculum</th>
+                  <th>Grade</th>
+                  <th>Mode</th>
+                  <th>Notes</th>
+                  <th>Status</th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+              <tbody id="allLeadsBody">
+                <!-- Populated via JS -->
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+
+      <!-- ==============================================
+           TAB 3: BOOKS & STUDY MATERIALS
+           ============================================== -->
+      <section id="tab-books" class="tab-pane">
+        <div class="card">
+          <div class="card-head">
+            <h2>Recommended Books, Worksheets & Syllabus Guides</h2>
+            <button class="btn btn-primary" onclick="openBookModal()"><i class="fa-solid fa-plus"></i> Add New Book / Material</button>
+          </div>
+          <div style="overflow-x: auto;">
+            <table>
+              <thead>
+                <tr>
+                  <th>Title & Description</th>
+                  <th>Curriculum / Board</th>
+                  <th>Grade / Level</th>
+                  <th>Subject</th>
+                  <th>Resource Link</th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+              <tbody id="booksTableBody">
+                <!-- Populated via JS -->
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+
+      <!-- ==============================================
+           TAB 4: ACTIVITIES & EVENTS
+           ============================================== -->
+      <section id="tab-activities" class="tab-pane">
+        <div class="card">
+          <div class="card-head">
+            <h2>Academic Activities, Bootcamps & Workshops</h2>
+            <button class="btn btn-primary" onclick="openActivityModal()"><i class="fa-solid fa-plus"></i> Post New Activity</button>
+          </div>
+          <div style="overflow-x: auto;">
+            <table>
+              <thead>
+                <tr>
+                  <th>Activity Title</th>
+                  <th>Type / Category</th>
+                  <th>Target Curricula / Grade</th>
+                  <th>Date & Timing</th>
+                  <th>Status</th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+              <tbody id="activitiesTableBody">
+                <!-- Populated via JS -->
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+
+      <!-- ==============================================
+           TAB 5: VERIFIED TUTORS
+           ============================================== -->
+      <section id="tab-tutors" class="tab-pane">
+        <div class="card">
+          <div class="card-head">
+            <h2>Verified Tutors & Mentor Directory</h2>
+            <button class="btn btn-primary" onclick="openTutorModal()"><i class="fa-solid fa-plus"></i> Add New Tutor</button>
+          </div>
+          <div style="overflow-x: auto;">
+            <table>
+              <thead>
+                <tr>
+                  <th>Tutor Name</th>
+                  <th>Subjects Handled</th>
+                  <th>Curricula (IB, IGCSE, CBSE)</th>
+                  <th>Experience</th>
+                  <th>Contact Phone</th>
+                  <th>Status</th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+              <tbody id="tutorsTableBody">
+                <!-- Populated via JS -->
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+
+      <!-- ==============================================
+           TAB 6: SITE INFORMATION & SETTINGS
+           ============================================== -->
+      <section id="tab-settings" class="tab-pane">
+        <div class="card" style="max-width: 800px;">
+          <div class="card-head">
+            <h2>Website Information & Contact Configuration</h2>
+          </div>
+          <form id="settingsForm">
+            <div class="form-group">
+              <label class="form-label">Top Banner Announcement Text</label>
+              <input type="text" id="settingBanner" class="form-control" value="Learn Smarter. Grow Stronger. Succeed Globally. | Next. Youth. Excellence">
+            </div>
+
+            <div class="form-row">
+              <div class="form-group">
+                <label class="form-label">Official Phone / WhatsApp Number</label>
+                <input type="text" id="settingPhone" class="form-control" value="+91 90823 15311">
+              </div>
+              <div class="form-group">
+                <label class="form-label">Official Email Address</label>
+                <input type="email" id="settingEmail" class="form-control" value="janyxeduhub@gmail.com">
+              </div>
+            </div>
+
+            <div class="form-row">
+              <div class="form-group">
+                <label class="form-label">Founder Name</label>
+                <input type="text" id="settingFounder" class="form-control" value="JANGLESHWAR SAROJ">
+              </div>
+              <div class="form-group">
+                <label class="form-label">Co-Founder Name</label>
+                <input type="text" id="settingCoFounder" class="form-control" value="ABHIJEET CHAUHAN">
+              </div>
+            </div>
+
+            <button type="submit" class="btn btn-gold">
+              <i class="fa-solid fa-save"></i> Save Site Information
+            </button>
+          </form>
+        </div>
+      </section>
+
+    </main>
+  </div>
+
+  <!-- ==============================================
+       MODALS
+       ============================================== -->
+
+  <!-- 1. Book / Study Material Modal -->
+  <div class="modal-backdrop" id="bookModal">
+    <div class="modal-box">
+      <button class="modal-close" onclick="closeModal('bookModal')">&times;</button>
+      <h3 style="font-size: 18px; margin-bottom: 16px; color: var(--primary);">Add / Update Study Material</h3>
+      <form id="bookForm">
+        <div class="form-group">
+          <label class="form-label">Book / Material Title *</label>
+          <input type="text" id="bookTitle" class="form-control" placeholder="e.g. Oxford IB Diploma Mathematics Analysis & Approaches HL" required>
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label class="form-label">Curriculum / Board *</label>
+            <select id="bookBoard" class="form-control" required>
+              <option value="International Baccalaureate (IB)">IB (PYP/MYP/DP)</option>
+              <option value="Cambridge CAIE (IGCSE/A-Level)">Cambridge IGCSE / A-Levels</option>
+              <option value="CBSE Board">CBSE Board</option>
+              <option value="ICSE / ISC Board">ICSE / ISC</option>
+              <option value="American Curriculum & AP">American & AP</option>
+              <option value="UK National Curriculum">UK Curriculum</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Grade / Level *</label>
+            <input type="text" id="bookGrade" class="form-control" placeholder="e.g. Grade 11-12" required>
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Subject *</label>
+          <input type="text" id="bookSubject" class="form-control" placeholder="e.g. Physics / Mathematics" required>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Resource / Download / Drive URL</label>
+          <input type="url" id="bookLink" class="form-control" placeholder="https://drive.google.com/..." value="#">
+        </div>
+        <button type="submit" class="btn btn-gold" style="width: 100%;">Save Book</button>
+      </form>
+    </div>
+  </div>
+
+  <!-- 2. Activity / Event Modal -->
+  <div class="modal-backdrop" id="activityModal">
+    <div class="modal-box">
+      <button class="modal-close" onclick="closeModal('activityModal')">&times;</button>
+      <h3 style="font-size: 18px; margin-bottom: 16px; color: var(--primary);">Post New Academic Activity</h3>
+      <form id="activityForm">
+        <div class="form-group">
+          <label class="form-label">Activity Title *</label>
+          <input type="text" id="actTitle" class="form-control" placeholder="e.g. IBDP Math AA Revision Bootcamp" required>
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label class="form-label">Type / Format *</label>
+            <select id="actType" class="form-control" required>
+              <option value="Bootcamp">Exam Bootcamp</option>
+              <option value="Workshop">Live Interactive Workshop</option>
+              <option value="Mock Test Series">Mock Test Series</option>
+              <option value="Guest Webinar">Webinar / Career Talk</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Target Audience *</label>
+            <input type="text" id="actTarget" class="form-control" placeholder="e.g. Class 10 & 12 Board Students" required>
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Date & Timing *</label>
+          <input type="text" id="actDate" class="form-control" placeholder="e.g. Every Saturday 5:00 PM IST" required>
+        </div>
+        <button type="submit" class="btn btn-gold" style="width: 100%;">Publish Activity</button>
+      </form>
+    </div>
+  </div>
+
+  <!-- 3. Tutor Modal -->
+  <div class="modal-backdrop" id="tutorModal">
+    <div class="modal-box">
+      <button class="modal-close" onclick="closeModal('tutorModal')">&times;</button>
+      <h3 style="font-size: 18px; margin-bottom: 16px; color: var(--primary);">Register Verified Tutor</h3>
+      <form id="tutorForm">
+        <div class="form-group">
+          <label class="form-label">Tutor Full Name *</label>
+          <input type="text" id="tutorName" class="form-control" placeholder="e.g. Dr. Ananya Sharma" required>
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label class="form-label">Subjects *</label>
+            <input type="text" id="tutorSubjects" class="form-control" placeholder="e.g. Mathematics, Physics" required>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Curricula *</label>
+            <input type="text" id="tutorCurricula" class="form-control" placeholder="e.g. IBDP, Cambridge, CBSE" required>
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label class="form-label">Teaching Experience *</label>
+            <input type="text" id="tutorExp" class="form-control" placeholder="e.g. 7+ Years" required>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Contact Number *</label>
+            <input type="tel" id="tutorPhone" class="form-control" placeholder="+91 90823 15311" required>
+          </div>
+        </div>
+        <button type="submit" class="btn btn-gold" style="width: 100%;">Save Tutor</button>
+      </form>
+    </div>
+  </div>
+
+  <!-- Toast -->
+  <div class="toast" id="toastMsg">Action completed successfully!</div>
+
+  <!-- ==============================================
+       ADMIN BACKEND JAVASCRIPT
+       ============================================== -->
+  <script>
+    // Initial Seed Data if empty
+    const seedInitialData = () => {
+      if (!localStorage.getItem('janyx_leads')) {
+        const sampleLeads = [
+          { id: 'LEAD-101', date: '20 Nov 2026, 14:30', name: 'Rohan Mehra', phone: '+91 98201 12345', curriculum: 'International Baccalaureate (IB)', grade: 'Grade 11 - 12', mode: 'Live 1-on-1 Online Class', message: 'Needs IBDP Math AA HL & Physics IA mentorship', status: 'New' },
+          { id: 'LEAD-102', date: '19 Nov 2026, 18:15', name: 'Simran Kaur', phone: '+91 98334 56789', curriculum: 'Cambridge IGCSE & A Levels', grade: 'Grade 9 - 10', mode: 'Personalized Home Tuition', message: 'Extended Math 0580 and Chemistry 0620 prep', status: 'Contacted' },
+          { id: 'LEAD-103', date: '18 Nov 2026, 11:00', name: 'Aditya Verma', phone: '+91 99200 44332', curriculum: 'CBSE Board', grade: 'Grade 11 - 12', mode: 'Live 1-on-1 Online Class', message: 'Class 12 Physics & Chemistry Board exam numericals', status: 'Trial Scheduled' }
+        ];
+        localStorage.setItem('janyx_leads', JSON.stringify(sampleLeads));
+      }
+
+      if (!localStorage.getItem('janyx_books')) {
+        const sampleBooks = [
+          { id: 1, title: 'Oxford IB Mathematics Analysis & Approaches HL', board: 'International Baccalaureate (IB)', grade: 'Grade 11 - 12', subject: 'Mathematics HL', link: '#' },
+          { id: 2, title: 'Cambridge IGCSE Physics Coursebook (David Sang)', board: 'Cambridge CAIE (IGCSE/A-Level)', grade: 'Grade 9 - 10', subject: 'Physics (0625)', link: '#' },
+          { id: 3, title: 'NCERT Exemplar Class 12 PCM Series', board: 'CBSE Board', grade: 'Grade 12', subject: 'PCM Combined', link: '#' },
+          { id: 4, title: 'Barron’s AP Calculus AB & BC Prep Manual', board: 'American Curriculum & AP', grade: 'Grade 11 - 12', subject: 'AP Calculus', link: '#' }
+        ];
+        localStorage.setItem('janyx_books', JSON.stringify(sampleBooks));
+      }
+
+      if (!localStorage.getItem('janyx_activities')) {
+        const sampleActivities = [
+          { id: 1, title: 'IBDP Internal Assessment (IA) Review Camp', type: 'Bootcamp', target: 'IBDP Year 1 & 2', date: 'Every Saturday, 4:00 PM', status: 'Active' },
+          { id: 2, title: 'Class 10 & 12 Board Exam 100-Mark Mock Simulation', type: 'Mock Test Series', target: 'CBSE / ICSE Board', date: 'Starting 1st Dec', status: 'Upcoming' },
+          { id: 3, title: 'Digital SAT Math & Reading 800-Score Strategy Webinar', type: 'Guest Webinar', target: 'High Schoolers', date: 'Sunday 11:00 AM IST', status: 'Active' }
+        ];
+        localStorage.setItem('janyx_activities', JSON.stringify(sampleActivities));
+      }
+
+      if (!localStorage.getItem('janyx_tutors')) {
+        const sampleTutors = [
+          { id: 1, name: 'Siddharth Iyer', subjects: 'Mathematics AA/AI, Additional Math', curricula: 'IBDP, Cambridge A-Level', exp: '8 Years', phone: '+91 90823 15311', status: 'Active' },
+          { id: 2, name: 'Dr. Neha Kapoor', subjects: 'Physics (HL/SL), Chemistry', curricula: 'IB, Cambridge IGCSE, CBSE', exp: '10 Years', phone: '+91 90823 15311', status: 'Active' },
+          { id: 3, name: 'Vikram Joshi', subjects: 'NCERT PCM, Board Revision', curricula: 'CBSE & ICSE (Grade 9-12)', exp: '6 Years', phone: '+91 90823 15311', status: 'Active' }
+        ];
+        localStorage.setItem('janyx_tutors', JSON.stringify(sampleTutors));
+      }
+    };
+
+    // Show Toast
+    const showToast = (msg) => {
+      const toast = document.getElementById('toastMsg');
+      toast.textContent = msg;
+      toast.style.display = 'block';
+      setTimeout(() => { toast.style.display = 'none'; }, 3000);
+    };
+
+    // Render Everything
+    const renderData = () => {
+      const leads = JSON.parse(localStorage.getItem('janyx_leads') || '[]');
+      const books = JSON.parse(localStorage.getItem('janyx_books') || '[]');
+      const activities = JSON.parse(localStorage.getItem('janyx_activities') || '[]');
+      const tutors = JSON.parse(localStorage.getItem('janyx_tutors') || '[]');
+
+      // Update counters
+      document.getElementById('statTotalLeads').textContent = leads.length;
+      document.getElementById('statTotalBooks').textContent = books.length;
+      document.getElementById('statTotalActivities').textContent = activities.length;
+      document.getElementById('statTotalTutors').textContent = tutors.length;
+
+      // Render Recent Leads (Top 5)
+      const recentBody = document.getElementById('recentLeadsBody');
+      recentBody.innerHTML = leads.slice(0, 5).map(lead => `
+        <tr>
+          <td><span style="font-weight:600;">${lead.date}</span></td>
+          <td><strong>${lead.name}</strong></td>
+          <td><a href="tel:${lead.phone}" style="color:var(--primary); font-weight:600;">${lead.phone}</a></td>
+          <td>${lead.curriculum}</td>
+          <td>${lead.grade}</td>
+          <td><span style="font-size:12px;">${lead.mode}</span></td>
+          <td><span class="badge badge-${lead.status.toLowerCase().replace(/\s+/g, '')}">${lead.status}</span></td>
+          <td>
+            <a href="https://wa.me/${lead.phone.replace(/[^0-9]/g, '')}?text=Hello%20${encodeURIComponent(lead.name)},%20greetings%20from%20JANYX%20EDU%20HUB!" target="_blank" class="btn btn-outline" style="padding:4px 8px; font-size:11px; color:#25D366;">
+              <i class="fa-brands fa-whatsapp"></i> Chat
+            </a>
+          </td>
+        </tr>
+      `).join('') || '<tr><td colspan="8" style="text-align:center; padding:20px;">No leads yet. Submit on website to test!</td></tr>';
+
+      // Render All Leads
+      const allLeadsBody = document.getElementById('allLeadsBody');
+      allLeadsBody.innerHTML = leads.map((lead, idx) => `
+        <tr>
+          <td><code>${lead.id}</code></td>
+          <td>${lead.date}</td>
+          <td><strong>${lead.name}</strong></td>
+          <td><a href="tel:${lead.phone}">${lead.phone}</a></td>
+          <td>${lead.curriculum}</td>
+          <td>${lead.grade}</td>
+          <td>${lead.mode}</td>
+          <td style="max-width:200px; font-size:12px; color:var(--muted);">${lead.message || '-'}</td>
+          <td>
+            <select onchange="updateLeadStatus(${idx}, this.value)" style="padding:4px 6px; border-radius:6px; font-size:11px; font-weight:600;">
+              <option value="New" ${lead.status==='New'?'selected':''}>New</option>
+              <option value="Contacted" ${lead.status==='Contacted'?'selected':''}>Contacted</option>
+              <option value="Trial Scheduled" ${lead.status==='Trial Scheduled'?'selected':''}>Trial Scheduled</option>
+              <option value="Enrolled" ${lead.status==='Enrolled'?'selected':''}>Enrolled</option>
+            </select>
+          </td>
+          <td>
+            <div style="display:flex; gap:6px;">
+              <a href="https://wa.me/${lead.phone.replace(/[^0-9]/g, '')}" target="_blank" class="btn btn-outline" style="padding:4px 8px; font-size:11px; color:#25D366;"><i class="fa-brands fa-whatsapp"></i></a>
+              <button class="btn btn-danger" onclick="deleteLead(${idx})" style="padding:4px 8px; font-size:11px;"><i class="fa-solid fa-trash"></i></button>
+            </div>
+          </td>
+        </tr>
+      `).join('') || '<tr><td colspan="10" style="text-align:center; padding:20px;">No inquiries found.</td></tr>';
+
+      // Render Books
+      const booksBody = document.getElementById('booksTableBody');
+      booksBody.innerHTML = books.map((b, idx) => `
+        <tr>
+          <td><strong>${b.title}</strong></td>
+          <td><span class="badge" style="background:#EEF2FF; color:#4F46E5;">${b.board}</span></td>
+          <td>${b.grade}</td>
+          <td>${b.subject}</td>
+          <td><a href="${b.link}" target="_blank" style="color:var(--secondary); font-weight:600;"><i class="fa-solid fa-arrow-up-right-from-square"></i> Open</a></td>
+          <td><button class="btn btn-danger" onclick="deleteBook(${idx})" style="padding:4px 8px; font-size:11px;"><i class="fa-solid fa-trash"></i></button></td>
+        </tr>
+      `).join('') || '<tr><td colspan="6" style="text-align:center;">No books added.</td></tr>';
+
+      // Render Activities
+      const actBody = document.getElementById('activitiesTableBody');
+      actBody.innerHTML = activities.map((a, idx) => `
+        <tr>
+          <td><strong>${a.title}</strong></td>
+          <td><span class="badge" style="background:#FEF3C7; color:#B45309;">${a.type}</span></td>
+          <td>${a.target}</td>
+          <td><i class="fa-regular fa-clock"></i> ${a.date}</td>
+          <td><span class="badge badge-enrolled">${a.status}</span></td>
+          <td><button class="btn btn-danger" onclick="deleteActivity(${idx})" style="padding:4px 8px; font-size:11px;"><i class="fa-solid fa-trash"></i></button></td>
+        </tr>
+      `).join('') || '<tr><td colspan="6" style="text-align:center;">No activities posted.</td></tr>';
+
+      // Render Tutors
+      const tutorsBody = document.getElementById('tutorsTableBody');
+      tutorsBody.innerHTML = tutors.map((t, idx) => `
+        <tr>
+          <td><strong>${t.name}</strong></td>
+          <td>${t.subjects}</td>
+          <td>${t.curricula}</td>
+          <td>${t.exp}</td>
+          <td><a href="tel:${t.phone}">${t.phone}</a></td>
+          <td><span class="badge badge-enrolled">${t.status}</span></td>
+          <td><button class="btn btn-danger" onclick="deleteTutor(${idx})" style="padding:4px 8px; font-size:11px;"><i class="fa-solid fa-trash"></i></button></td>
+        </tr>
+      `).join('') || '<tr><td colspan="7" style="text-align:center;">No tutors registered.</td></tr>';
+    };
+
+    // Navigation Tab Switching
+    const tabPanes = document.querySelectorAll('.tab-pane');
+    const navItems = document.querySelectorAll('.nav-item');
+    const pageHeading = document.getElementById('pageHeading');
+    const pageSubHeading = document.getElementById('pageSubHeading');
+
+    const headingsMap = {
+      'tab-dashboard': ['Dashboard Overview', 'Monitor student inquiries, manage study material, books, and activities.'],
+      'tab-leads': ['Leads & Trial Enquiries', 'Manage parent inquiries, trial class requests, and follow-ups.'],
+      'tab-books': ['Books & Curriculum Resources', 'Upload, update, and manage recommended textbooks, guides, and worksheets.'],
+      'tab-activities': ['Academic Activities & Workshops', 'Publish announcements, crash courses, revision marathons, and Olympiads.'],
+      'tab-tutors': ['Verified Tutors Directory', 'Manage accredited mentors, subjects, qualifications, and assignments.'],
+      'tab-settings': ['Site Information & Configuration', 'Customize topbar banner, phone, email, and founder details.']
+    };
+
+    function switchTab(tabId) {
+      navItems.forEach(n => n.classList.remove('active'));
+      tabPanes.forEach(p => p.classList.remove('active'));
+
+      const activeNav = document.querySelector(`[data-tab="${tabId}"]`);
+      if (activeNav) activeNav.classList.add('active');
+
+      const activePane = document.getElementById(tabId);
+      if (activePane) activePane.classList.add('active');
+
+      if (headingsMap[tabId]) {
+        pageHeading.textContent = headingsMap[tabId][0];
+        pageSubHeading.textContent = headingsMap[tabId][1];
+      }
+    }
+
+    navItems.forEach(item => {
+      item.addEventListener('click', () => switchTab(item.getAttribute('data-tab')));
+    });
+
+    // Modal Control
+    const openModal = (id) => document.getElementById(id).classList.add('active');
+    const closeModal = (id) => document.getElementById(id).classList.remove('active');
+
+    const openBookModal = () => openModal('bookModal');
+    const openActivityModal = () => openModal('activityModal');
+    const openTutorModal = () => openModal('tutorModal');
+
+    document.getElementById('quickActionBtn').addEventListener('click', () => {
+      const activeNav = document.querySelector('.nav-item.active').getAttribute('data-tab');
+      if (activeNav === 'tab-books') openBookModal();
+      else if (activeNav === 'tab-activities') openActivityModal();
+      else if (activeNav === 'tab-tutors') openTutorModal();
+      else openBookModal();
+    });
+
+    // Delete Handlers
+    window.deleteLead = (idx) => {
+      if (confirm('Delete this inquiry?')) {
+        const leads = JSON.parse(localStorage.getItem('janyx_leads') || '[]');
+        leads.splice(idx, 1);
+        localStorage.setItem('janyx_leads', JSON.stringify(leads));
+        renderData();
+        showToast('Inquiry removed');
+      }
+    };
+    window.updateLeadStatus = (idx, newStatus) => {
+      const leads = JSON.parse(localStorage.getItem('janyx_leads') || '[]');
+      leads[idx].status = newStatus;
+      localStorage.setItem('janyx_leads', JSON.stringify(leads));
+      renderData();
+      showToast('Status updated to ' + newStatus);
+    };
+    window.deleteBook = (idx) => {
+      if (confirm('Delete this book?')) {
+        const books = JSON.parse(localStorage.getItem('janyx_books') || '[]');
+        books.splice(idx, 1);
+        localStorage.setItem('janyx_books', JSON.stringify(books));
+        renderData();
+        showToast('Book removed');
+      }
+    };
+    window.deleteActivity = (idx) => {
+      if (confirm('Delete this activity?')) {
+        const activities = JSON.parse(localStorage.getItem('janyx_activities') || '[]');
+        activities.splice(idx, 1);
+        localStorage.setItem('janyx_activities', JSON.stringify(activities));
+        renderData();
+        showToast('Activity removed');
+      }
+    };
+    window.deleteTutor = (idx) => {
+      if (confirm('Delete this tutor?')) {
+        const tutors = JSON.parse(localStorage.getItem('janyx_tutors') || '[]');
+        tutors.splice(idx, 1);
+        localStorage.setItem('janyx_tutors', JSON.stringify(tutors));
+        renderData();
+        showToast('Tutor removed');
+      }
+    };
+
+    // Form Submissions
+    document.getElementById('bookForm').addEventListener('submit', (e) => {
+      e.preventDefault();
+      const books = JSON.parse(localStorage.getItem('janyx_books') || '[]');
+      books.unshift({
+        id: Date.now(),
+        title: document.getElementById('bookTitle').value,
+        board: document.getElementById('bookBoard').value,
+        grade: document.getElementById('bookGrade').value,
+        subject: document.getElementById('bookSubject').value,
+        link: document.getElementById('bookLink').value || '#'
+      });
+      localStorage.setItem('janyx_books', JSON.stringify(books));
+      closeModal('bookModal');
+      e.target.reset();
+      renderData();
+      showToast('New study material published successfully!');
+    });
+
+    document.getElementById('activityForm').addEventListener('submit', (e) => {
+      e.preventDefault();
+      const activities = JSON.parse(localStorage.getItem('janyx_activities') || '[]');
+      activities.unshift({
+        id: Date.now(),
+        title: document.getElementById('actTitle').value,
+        type: document.getElementById('actType').value,
+        target: document.getElementById('actTarget').value,
+        date: document.getElementById('actDate').value,
+        status: 'Active'
+      });
+      localStorage.setItem('janyx_activities', JSON.stringify(activities));
+      closeModal('activityModal');
+      e.target.reset();
+      renderData();
+      showToast('New activity published successfully!');
+    });
+
+    document.getElementById('tutorForm').addEventListener('submit', (e) => {
+      e.preventDefault();
+      const tutors = JSON.parse(localStorage.getItem('janyx_tutors') || '[]');
+      tutors.unshift({
+        id: Date.now(),
+        name: document.getElementById('tutorName').value,
+        subjects: document.getElementById('tutorSubjects').value,
+        curricula: document.getElementById('tutorCurricula').value,
+        exp: document.getElementById('tutorExp').value,
+        phone: document.getElementById('tutorPhone').value,
+        status: 'Active'
+      });
+      localStorage.setItem('janyx_tutors', JSON.stringify(tutors));
+      closeModal('tutorModal');
+      e.target.reset();
+      renderData();
+      showToast('New tutor registered successfully!');
+    });
+
+    document.getElementById('settingsForm').addEventListener('submit', (e) => {
+      e.preventDefault();
+      showToast('Site information updated successfully!');
+    });
+
+    // CSV Export
+    window.exportLeadsCSV = () => {
+      const leads = JSON.parse(localStorage.getItem('janyx_leads') || '[]');
+      if (!leads.length) return alert('No leads to export.');
+      let csv = 'ID,Date,Name,Phone,Curriculum,Grade,Mode,Status,Notes\n';
+      leads.forEach(l => {
+        csv += `"${l.id}","${l.date}","${l.name}","${l.phone}","${l.curriculum}","${l.grade}","${l.mode}","${l.status}","${(l.message||'').replace(/"/g, '""')}"\n`;
+      });
+      const blob = new Blob([csv], { type: 'text/csv' });
+      const a = document.createElement('a');
+      a.href = URL.createObjectURL(blob);
+      a.download = `JANYX_Leads_${new Date().toISOString().slice(0,10)}.csv`;
+      a.click();
+    };
+
+    // Initialize
+    seedInitialData();
+    renderData();
+  </script>
+</body>
+</html>

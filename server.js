@@ -22,7 +22,13 @@ const MIME_TYPES = {
 
 const server = http.createServer((req, res) => {
   let reqUrl = req.url.split('?')[0];
-  let filePath = path.join(__dirname, reqUrl === '/' ? 'index.html' : reqUrl);
+  let safePath = path.normalize(reqUrl).replace(/^(\.\.[\/\\])+/, '');
+  let filePath = path.join(__dirname, safePath);
+
+  // If path is a directory, look for index.html
+  if (fs.existsSync(filePath) && fs.statSync(filePath).isDirectory()) {
+    filePath = path.join(filePath, 'index.html');
+  }
 
   fs.stat(filePath, (err, stats) => {
     if (err || !stats.isFile()) {
@@ -41,7 +47,8 @@ const server = http.createServer((req, res) => {
 
 server.listen(PORT, () => {
   console.log(`\n======================================================`);
-  console.log(`🚀 JANYX EDU HUB website is live!`);
-  console.log(`🔗 Local URL: http://localhost:${PORT}`);
+  console.log(`🚀 JANYX EDU HUB is running!`);
+  console.log(`🌐 Website URL:     http://localhost:${PORT}`);
+  console.log(`🔒 Admin Panel URL: http://localhost:${PORT}/admin/`);
   console.log(`======================================================\n`);
 });
