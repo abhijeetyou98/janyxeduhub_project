@@ -1809,3 +1809,267 @@ figure { margin: 0; }
 .post__body a:not(.btn) { color: var(--primary); text-decoration: underline; text-underline-offset: 3px; }
 .post__body strong { color: var(--secondary); }
 .post__body > p:not(.post__lead) { margin-bottom: 24px; }
+
+
+/* ==========================================================================
+   MOBILE & TABLET RESPONSIVENESS OVERRIDES & BUG FIXES
+   ========================================================================== */
+
+/* 1. Prevent ANY horizontal scrolling/overflow on mobile */
+html, body {
+  overflow-x: hidden !important;
+  max-width: 100vw !important;
+  width: 100% !important;
+  position: relative;
+}
+
+/* 2. Topbar on mobile */
+@media (max-width: 768px) {
+  .topbar {
+    display: none !important;
+  }
+}
+
+/* 3. Header & Book Free Trial button on Mobile / Tablet */
+@media (max-width: 900px) {
+  .header {
+    height: 70px !important;
+  }
+  .header__inner {
+    height: 70px !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: space-between !important;
+  }
+  .header__phone,
+  .header__btn {
+    display: none !important;
+  }
+  .burger {
+    display: flex !important;
+    margin-left: auto !important;
+  }
+}
+
+/* 4. Fix Hero Content & Stats for Mobile */
+.hero {
+  overflow: hidden !important;
+  max-width: 100vw !important;
+}
+.hero__inner {
+  width: 100%;
+  max-width: 100%;
+}
+.hero__title {
+  word-break: break-word;
+}
+.hero__actions,
+.hero__ctas {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-top: 24px;
+}
+@media (max-width: 500px) {
+  .hero__actions .btn,
+  .hero__ctas .btn {
+    width: 100% !important;
+    text-align: center;
+  }
+}
+
+.hero__stats {
+  display: grid !important;
+  grid-template-columns: repeat(auto-fit, minmax(130px, 1fr)) !important;
+  gap: 16px !important;
+  margin-top: 28px !important;
+  padding-top: 20px !important;
+  border-top: 1px solid var(--border) !important;
+}
+.hero__stats .stat {
+  padding: 0 !important;
+  text-align: left !important;
+  background: none !important;
+}
+.hero__stats .stat + .stat::before {
+  display: none !important;
+}
+.stat__num {
+  display: block !important;
+  font-family: var(--font-head) !important;
+  font-size: clamp(20px, 2.5vw, 28px) !important;
+  font-weight: 800 !important;
+  color: var(--secondary) !important;
+  line-height: 1.1 !important;
+  margin-bottom: 2px !important;
+}
+.stat__lbl {
+  display: block !important;
+  font-size: 13px !important;
+  color: var(--muted) !important;
+  font-weight: 500 !important;
+}
+
+/* 5. Highlights Section on Mobile */
+.highlights {
+  overflow: hidden !important;
+  position: relative;
+  z-index: 5;
+}
+.highlights__grid {
+  display: grid !important;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)) !important;
+  gap: 16px !important;
+  background: #ffffff !important;
+  border-radius: 20px !important;
+  box-shadow: 0 10px 30px rgba(11, 27, 61, 0.08) !important;
+  padding: 20px !important;
+  border: 1px solid var(--border) !important;
+}
+.highlight-card {
+  display: flex !important;
+  align-items: flex-start !important;
+  gap: 14px !important;
+  padding: 12px !important;
+}
+.highlight-card__icon {
+  width: 48px !important;
+  height: 48px !important;
+  border-radius: 12px !important;
+  background: var(--primary-100) !important;
+  color: var(--primary) !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  font-size: 1.25rem !important;
+  flex-shrink: 0 !important;
+}
+.highlight-card__title {
+  font-size: 16px !important;
+  font-weight: 700 !important;
+  margin-bottom: 4px !important;
+  color: var(--secondary) !important;
+}
+.highlight-card__text {
+  font-size: 13.5px !important;
+  color: var(--muted) !important;
+  line-height: 1.5 !important;
+}
+
+/* 6. Courses & Curricula Cards */
+.courses__grid {
+  display: grid !important;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)) !important;
+  gap: 24px !important;
+  margin-top: 32px !important;
+}
+.course-card {
+  background: #ffffff !important;
+  border-radius: 20px !important;
+  padding: 28px 24px !important;
+  border: 1px solid var(--border) !important;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.04) !important;
+  display: flex !important;
+  flex-direction: column !important;
+  position: relative !important;
+  transition: transform 0.3s ease, box-shadow 0.3s ease !important;
+}
+.course-card:hover {
+  transform: translateY(-4px) !important;
+  box-shadow: 0 12px 30px rgba(11, 27, 61, 0.12) !important;
+  border-color: var(--accent) !important;
+}
+.course-card__num {
+  font-family: var(--font-head) !important;
+  font-size: 28px !important;
+  font-weight: 800 !important;
+  color: rgba(11, 27, 61, 0.15) !important;
+  line-height: 1 !important;
+  margin-bottom: 8px !important;
+}
+.course-card__tag {
+  display: inline-block !important;
+  font-size: 11px !important;
+  font-weight: 700 !important;
+  text-transform: uppercase !important;
+  letter-spacing: 0.08em !important;
+  color: var(--accent) !important;
+  margin-bottom: 8px !important;
+}
+.course-card__title {
+  font-size: 19px !important;
+  font-weight: 700 !important;
+  margin-bottom: 10px !important;
+  color: var(--secondary) !important;
+}
+.course-card__text {
+  font-size: 14px !important;
+  color: var(--muted) !important;
+  line-height: 1.6 !important;
+  margin-bottom: 16px !important;
+}
+.course-card__topics {
+  list-style: none !important;
+  display: flex !important;
+  flex-wrap: wrap !important;
+  gap: 6px !important;
+  margin-bottom: 20px !important;
+  margin-top: auto !important;
+}
+.course-card__topics li {
+  font-size: 12px !important;
+  background: var(--light) !important;
+  color: var(--text) !important;
+  padding: 4px 10px !important;
+  border-radius: 6px !important;
+  font-weight: 500 !important;
+}
+.course-card__link {
+  display: inline-flex !important;
+  align-items: center !important;
+  gap: 8px !important;
+  font-size: 14px !important;
+  font-weight: 700 !important;
+  color: var(--primary) !important;
+}
+.course-card__link:hover {
+  color: var(--accent) !important;
+}
+
+/* 7. Footer text visibility */
+.footer {
+  background: var(--dark) !important;
+  color: #CBD5E1 !important;
+}
+.footer .logo__title {
+  color: #FFFFFF !important;
+}
+.footer p, .footer span, .footer a {
+  color: #94A3B8;
+}
+.footer a:hover {
+  color: var(--accent) !important;
+}
+.footer__founder {
+  color: var(--accent) !important;
+  font-weight: 700 !important;
+}
+
+/* 8. Mobile Enquiry Form */
+@media (max-width: 768px) {
+  .enquiry__inner {
+    grid-template-columns: 1fr !important;
+    gap: 32px !important;
+  }
+  .form-row {
+    grid-template-columns: 1fr !important;
+  }
+}
+
+
+/* Hide custom cursor completely on touch devices / mobile */
+@media (hover: none), (pointer: coarse), (max-width: 900px) {
+  .cursor {
+    display: none !important;
+  }
+}
