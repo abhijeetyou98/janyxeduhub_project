@@ -242,10 +242,10 @@ figure { margin: 0; }
 /* =========================
    7. MOBILE DRAWER
 ========================= */
-.drawer-overlay { position: fixed; inset: 0; background: rgba(6,16,23,.55); backdrop-filter: blur(4px); z-index: 1099; opacity: 0; transition: opacity .4s; }
+.drawer-overlay { position: fixed; inset: 0; background: rgba(6,16,23,.55); backdrop-filter: blur(4px); z-index: 2490; opacity: 0; transition: opacity .4s; }
 .drawer-overlay.is-open { opacity: 1; }
 .drawer {
-    position: fixed; top: 0; right: 0; bottom: 0; z-index: 1100;
+    position: fixed; top: 0; right: 0; bottom: 0; z-index: 2500;
     width: min(380px, 88vw); background: #fff; padding: 24px;
     display: flex; flex-direction: column; overflow-y: auto;
     transform: translateX(100%); transition: transform .55s var(--ease); visibility: hidden;
@@ -1178,32 +1178,74 @@ figure { margin: 0; }
     position: fixed;
     right: 24px;
     bottom: 24px;
-    z-index: 1200;
+    z-index: 990;
     display: inline-flex;
     align-items: center;
     gap: 11px;
-    min-height: 58px;
+    min-height: 54px;
     padding: 0 20px;
     border: 1px solid rgba(255,255,255,.24);
     border-radius: 999px;
-    background: #20b96b;
-    box-shadow: 0 12px 32px rgba(13, 93, 53, .28), 0 3px 9px rgba(15, 42, 61, .14);
+    background: #25D366;
+    box-shadow: 0 10px 28px rgba(37, 211, 102, .38), 0 3px 9px rgba(15, 42, 61, .14);
     color: #fff;
     font: 700 14px/1 Inter, "Segoe UI", sans-serif;
     text-decoration: none;
-    transition: transform .2s ease, background-color .2s ease, box-shadow .2s ease;
+    transition: transform .25s ease, background-color .25s ease, box-shadow .25s ease, opacity .25s ease, visibility .25s ease;
 }
 .whatsapp-float:hover {
     transform: translateY(-3px);
-    background: #159b57;
-    box-shadow: 0 16px 36px rgba(13, 93, 53, .34), 0 4px 10px rgba(15, 42, 61, .15);
+    background: #1eb956;
+    box-shadow: 0 16px 36px rgba(37, 211, 102, .48), 0 4px 10px rgba(15, 42, 61, .15);
     color: #fff;
 }
 .whatsapp-float:focus-visible { outline: 3px solid #0f2a3d; outline-offset: 4px; }
-.whatsapp-float__icon { font-size: 25px; line-height: 1; }
+.whatsapp-float__icon { font-size: 24px; line-height: 1; }
 .whatsapp-float__label { white-space: nowrap; }
+
+/* When mobile drawer is open or body is locked, completely hide the floating WhatsApp button */
+body.no-scroll .whatsapp-float,
+body.has-drawer-open .whatsapp-float,
+.drawer.is-open ~ .whatsapp-float,
+.drawer-overlay.is-open ~ .whatsapp-float {
+    opacity: 0 !important;
+    visibility: hidden !important;
+    pointer-events: none !important;
+    transform: scale(0.6) translateY(24px) !important;
+}
+
 @media (max-width: 767px) {
-    .whatsapp-float { right: 16px; bottom: 16px; min-height: 54px; padding: 0 17px; }
+    .whatsapp-float {
+        right: 16px;
+        bottom: 16px;
+        min-height: 48px;
+        padding: 0 16px;
+        font-size: 13.5px;
+    }
+}
+
+/* Compact FAB on mobile phones so it NEVER hides text, buttons, or stats */
+@media (max-width: 540px) {
+    .whatsapp-float {
+        width: 52px !important;
+        height: 52px !important;
+        min-height: 52px !important;
+        border-radius: 50% !important;
+        padding: 0 !important;
+        display: flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+        right: 16px !important;
+        bottom: 16px !important;
+        box-shadow: 0 6px 20px rgba(37, 211, 102, .45) !important;
+    }
+    .whatsapp-float__label {
+        display: none !important;
+    }
+    .whatsapp-float__icon {
+        font-size: 26px !important;
+        margin: 0 !important;
+    }
 }
 @media (prefers-reduced-motion: reduce) { .whatsapp-float { transition: none; } }
 
@@ -2364,4 +2406,227 @@ html, body {
 #why .why-card__text,
 .why .why-card__text {
   color: #CBD5E1 !important;
+}
+
+/* ==========================================================================
+   MOBILE HERO & IMAGE CONTAINMENT (PREVENTS COVERING BUTTONS / TEXT)
+   ========================================================================== */
+.hero__visual {
+  position: relative !important;
+  width: 100% !important;
+  max-width: 480px !important;
+  aspect-ratio: 11 / 12.5 !important;
+  justify-self: center !important;
+}
+
+.hero__img {
+  position: absolute !important;
+  inset: 0 !important;
+  border-radius: 36px !important;
+  overflow: hidden !important;
+  box-shadow: 0 20px 50px -10px rgba(11, 27, 61, 0.28) !important;
+}
+
+.hero__img img {
+  width: 100% !important;
+  height: 100% !important;
+  object-fit: cover !important;
+  display: block !important;
+}
+
+@media (max-width: 1023px) {
+  .hero {
+    min-height: auto !important;
+    padding-bottom: 40px !important;
+  }
+
+  .hero__inner {
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 28px !important;
+    padding-top: 20px !important;
+    padding-bottom: 24px !important;
+    text-align: left !important;
+  }
+
+  .hero__content {
+    order: 1 !important;
+    width: 100% !important;
+  }
+
+  .hero__title {
+    font-size: clamp(32px, 8.5vw, 48px) !important;
+    line-height: 1.08 !important;
+    margin-bottom: 16px !important;
+  }
+
+  .hero__text {
+    font-size: 15.5px !important;
+    line-height: 1.6 !important;
+    margin-bottom: 24px !important;
+  }
+
+  .hero__actions {
+    display: flex !important;
+    flex-wrap: wrap !important;
+    gap: 12px !important;
+    margin-bottom: 24px !important;
+  }
+
+  .hero__actions .btn {
+    flex: 1 1 150px !important;
+    text-align: center !important;
+    justify-content: center !important;
+    padding: 13px 20px !important;
+    font-size: 15px !important;
+  }
+
+  .hero__stats {
+    display: grid !important;
+    grid-template-columns: repeat(3, 1fr) !important;
+    gap: 12px !important;
+    margin-top: 20px !important;
+    padding-top: 18px !important;
+    border-top: 1px solid var(--border) !important;
+  }
+
+  .hero__stats .stat {
+    padding: 0 !important;
+    text-align: left !important;
+    background: none !important;
+  }
+
+  .hero__stats .stat__num {
+    font-size: 20px !important;
+    font-weight: 800 !important;
+    color: var(--secondary) !important;
+  }
+
+  .hero__stats .stat__lbl {
+    font-size: 11px !important;
+    color: var(--muted) !important;
+    line-height: 1.3 !important;
+    margin-top: 4px !important;
+  }
+
+  /* Bounded image box below content so it NEVER overlaps or hides information */
+  .hero__visual {
+    order: 2 !important;
+    width: 100% !important;
+    max-width: 440px !important;
+    aspect-ratio: 16 / 11 !important;
+    max-height: 320px !important;
+    margin: 10px auto 0 !important;
+    position: relative !important;
+    border-radius: 24px !important;
+    overflow: hidden !important;
+  }
+
+  .hero__img {
+    position: relative !important;
+    width: 100% !important;
+    height: 100% !important;
+    inset: auto !important;
+    border-radius: 24px !important;
+    overflow: hidden !important;
+  }
+
+  .hero__ring {
+    display: none !important;
+  }
+
+  .hero__visual .float-card--b {
+    display: none !important;
+  }
+
+  .hero__visual .float-card--a {
+    position: absolute !important;
+    bottom: 12px !important;
+    left: 12px !important;
+    top: auto !important;
+    padding: 8px 12px !important;
+    border-radius: 12px !important;
+    font-size: 12px !important;
+    background: rgba(255, 255, 255, 0.92) !important;
+    box-shadow: 0 4px 14px rgba(0, 0, 0, 0.15) !important;
+    z-index: 5 !important;
+  }
+
+  .hero__visual .float-card--a strong {
+    font-size: 12px !important;
+  }
+
+  .hero__visual .float-card--a small {
+    font-size: 10px !important;
+  }
+}
+
+@media (max-width: 480px) {
+  .hero__stats {
+    grid-template-columns: repeat(3, 1fr) !important;
+    gap: 8px !important;
+  }
+  .hero__stats .stat__num {
+    font-size: 18px !important;
+  }
+  .hero__stats .stat__lbl {
+    font-size: 10px !important;
+  }
+}
+
+/* ==========================================================================
+   MOBILE DRAWER FOOTER BUTTON & CONTACT ALIGNMENT FIX
+   ========================================================================== */
+.drawer__foot {
+  margin-top: auto !important;
+  padding-top: 24px !important;
+  padding-bottom: 12px !important;
+  display: flex !important;
+  flex-direction: column !important;
+  gap: 12px !important;
+  border-top: 1px solid var(--border) !important;
+  width: 100% !important;
+  box-sizing: border-box !important;
+}
+
+.drawer__foot .btn--full {
+  width: 100% !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  border-radius: 12px !important;
+  padding: 14px 18px !important;
+  font-weight: 700 !important;
+  font-size: 15px !important;
+  background: var(--grad-brand) !important;
+  color: #FFFFFF !important;
+  white-space: normal !important;
+  text-align: center !important;
+  box-shadow: 0 4px 14px rgba(11, 27, 61, 0.2) !important;
+  text-decoration: none !important;
+}
+
+.drawer__foot .drawer__contact {
+  display: flex !important;
+  align-items: center !important;
+  gap: 10px !important;
+  color: var(--muted) !important;
+  font-size: 14px !important;
+  text-decoration: none !important;
+}
+
+.drawer__foot .drawer__contact i {
+  color: var(--accent) !important;
+  font-size: 15px !important;
+  flex-shrink: 0 !important;
+}
+
+.drawer__foot .drawer__contact a {
+  color: var(--secondary) !important;
+  font-weight: 600 !important;
+  text-decoration: none !important;
+}
+
+.drawer__foot .drawer__contact a:hover {
+  color: var(--accent) !important;
 }

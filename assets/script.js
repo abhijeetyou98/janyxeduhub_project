@@ -94,6 +94,7 @@
             burger.setAttribute("aria-expanded", "true");
             burger.setAttribute("aria-label", "Close menu");
             document.body.classList.add("no-scroll");
+            document.body.classList.add("has-drawer-open");
             setTimeout(() => closeBtn.focus(), 300);
         };
         const close = () => {
@@ -104,6 +105,7 @@
             burger.setAttribute("aria-expanded", "false");
             burger.setAttribute("aria-label", "Open menu");
             document.body.classList.remove("no-scroll");
+            document.body.classList.remove("has-drawer-open");
             setTimeout(() => { overlay.hidden = true; }, 400);
         };
 
