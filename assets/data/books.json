@@ -1,0 +1,74 @@
+[
+  {
+    "id": 101,
+    "title": "HSC Class 12 Physics: Complete Formula Book, Derivations & Board Solved Papers",
+    "board": "HSC (Maharashtra State Board)",
+    "grade": "Class 12 (HSC)",
+    "subject": "Physics",
+    "link": "https://drive.google.com/drive/folders/1example-hsc-physics-notes",
+    "type": "drive"
+  },
+  {
+    "id": 102,
+    "title": "SSC Class 10 Mathematics: Algebra & Geometry Chapter-wise Model Solutions",
+    "board": "SSC (Maharashtra State Board)",
+    "grade": "Class 10 (SSC)",
+    "subject": "Mathematics",
+    "link": "https://drive.google.com/drive/folders/1example-ssc-maths-bank",
+    "type": "drive"
+  },
+  {
+    "id": 103,
+    "title": "JEE Main & Advanced Mathematics: 15-Year Chapter-wise PYQ & Short Tricks",
+    "board": "JEE (Main & Advanced)",
+    "grade": "Class 11 & 12",
+    "subject": "Mathematics",
+    "link": "https://drive.google.com/drive/folders/1example-jee-mathematics",
+    "type": "drive"
+  },
+  {
+    "id": 104,
+    "title": "NEET-UG Biology: 100% NCERT Line-by-Line Diagrammatic Question Bank",
+    "board": "NEET-UG (Medical Entrance)",
+    "grade": "Class 11 & 12",
+    "subject": "Biology (Botany & Zoology)",
+    "link": "https://drive.google.com/drive/folders/1example-neet-biology",
+    "type": "drive"
+  },
+  {
+    "id": 105,
+    "title": "MHT-CET Chemistry: High-Yield Formula Sheets & Past 10-Year Solved Papers",
+    "board": "MHT-CET (Engineering / Pharmacy)",
+    "grade": "Class 12",
+    "subject": "Chemistry",
+    "link": "https://drive.google.com/drive/folders/1example-mhtcet-chemistry",
+    "type": "drive"
+  },
+  {
+    "id": 106,
+    "title": "IBDP Mathematics Analysis & Approaches (AA HL) Comprehensive Revision Guide",
+    "board": "International Baccalaureate (IB)",
+    "grade": "IBDP Year 1 & 2",
+    "subject": "Math AA HL",
+    "link": "https://drive.google.com/drive/folders/1example-ibdp-math-aa",
+    "type": "drive"
+  },
+  {
+    "id": 107,
+    "title": "Cambridge IGCSE Physics (0625): Topical Past Paper Workbook & Mark Schemes",
+    "board": "Cambridge (IGCSE & A Levels)",
+    "grade": "Grade 9 & 10 (IGCSE)",
+    "subject": "Physics (0625)",
+    "link": "https://drive.google.com/drive/folders/1example-igcse-physics",
+    "type": "drive"
+  },
+  {
+    "id": 108,
+    "title": "CBSE Class 10 & 12 Science Exemplar Solutions & Blueprint Practice Tests",
+    "board": "CBSE Board",
+    "grade": "Class 10 & 12",
+    "subject": "Science & PCM",
+    "link": "https://drive.google.com/drive/folders/1example-cbse-science",
+    "type": "drive"
+  }
+]

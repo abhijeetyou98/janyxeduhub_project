@@ -200,6 +200,7 @@
                         <ul class="nav__drop">
                             <li><a href="#state-boards"><strong>SSC & HSC (State Board)</strong></a></li>
                             <li><a href="#competitive-exams"><strong>JEE · NEET · MHT-CET</strong></a></li>
+                            <li><a href="#materials"><strong>Drive Links &amp; Worksheets</strong></a></li>
                             <li><a href="#courses">International Baccalaureate (IB)</a></li>
                             <li><a href="#courses">Cambridge IGCSE & A Levels</a></li>
                             <li><a href="#courses">CBSE & ICSE Boards</a></li>
@@ -208,6 +209,7 @@
                             <li><a href="#courses">SAT / ACT & Olympiads</a></li>
                         </ul>
                     </li>
+                    <li><a class="nav__link" href="#materials">Study Material</a></li>
                     <li><a class="nav__link" href="#services">Learning Modes</a></li>
                     <li><a class="nav__link" href="#why">Why Us</a></li>
                     <li><a class="nav__link" href="#founders">Founders</a></li>
@@ -251,6 +253,7 @@
             <li><a class="drawer__link" href="#about">About</a></li>
             <li><a class="drawer__link" href="#competitive-exams">SSC, HSC, JEE, MHT-CET & NEET</a></li>
             <li><a class="drawer__link" href="#courses">Courses & Curricula</a></li>
+            <li><a class="drawer__link" href="#materials">Study Material &amp; Drive Resources</a></li>
             <li><a class="drawer__link" href="#services">Learning Modes</a></li>
             <li><a class="drawer__link" href="#why">Why Learn With Us</a></li>
             <li><a class="drawer__link" href="#journey">Learning Journey</a></li>
@@ -703,6 +706,44 @@
                         </ul>
                         <a href="#enquiry" class="course-card__link">Enroll for MHT-CET <i class="fa-solid fa-arrow-right"></i></a>
                     </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- =========================
+             STUDY MATERIALS & GOOGLE DRIVE RESOURCES
+        ========================= -->
+        <section class="materials-section section" id="materials" aria-label="Curriculum Materials & Google Drive Resources">
+            <div class="container">
+                <div class="section-head section-head--center" data-aos="fade-up">
+                    <span class="eyebrow"><span class="dot"></span> Curated Academic Drive Library</span>
+                    <h2 class="section-title">Recommended Books, Notes &amp; <em>Drive Resources</em>.</h2>
+                    <p class="section-sub" style="max-width: 720px; margin: 0 auto;">Access syllabus blueprints, formula cheat-sheets, past board exam papers, and subject revision notes uploaded directly via Google Drive.</p>
+                </div>
+
+                <!-- Board Filter Tabs -->
+                <div class="materials-tabs" data-aos="fade-up">
+                    <button class="mat-tab active" data-filter="all">All Resources</button>
+                    <button class="mat-tab" data-filter="state">SSC &amp; HSC (State Board)</button>
+                    <button class="mat-tab" data-filter="entrance">JEE · NEET · MHT-CET</button>
+                    <button class="mat-tab" data-filter="international">IBDP &amp; Cambridge</button>
+                    <button class="mat-tab" data-filter="national">CBSE &amp; ICSE</button>
+                </div>
+
+                <!-- Live Dynamic Resources Grid (Populated from assets/data/books.json + Admin Panel localStorage) -->
+                <div class="materials-grid" id="materialsGrid">
+                    <!-- Populated dynamically via JS -->
+                </div>
+
+                <!-- Help Notice -->
+                <div class="materials-notice" data-aos="fade-up">
+                    <div>
+                        <h4 style="font-size: 17px; font-weight: 700; color: var(--secondary); margin-bottom: 4px;">Looking for specific chapter question banks or past papers?</h4>
+                        <p style="color: var(--muted); font-size: 14px; margin: 0;">Our academic counselors share customized Google Drive folders and syllabus packages on request.</p>
+                    </div>
+                    <a href="https://wa.me/919082315311?text=Hello%20JANYX%20EDU%20HUB%2C%20I%20need%20study%20materials%20and%20past%20papers%20for%20my%20course." target="_blank" rel="noopener" class="btn btn--primary" style="padding: 12px 22px; font-size: 14px; display: inline-flex; align-items: center; gap: 8px;">
+                        <i class="fa-brands fa-whatsapp"></i> Request Drive Access
+                    </a>
                 </div>
             </div>
         </section>
@@ -1255,6 +1296,111 @@
             }, 800);
           });
         }
+
+        // ==============================================
+        // DYNAMIC STUDY MATERIALS & GOOGLE DRIVE LOADER
+        // Combines assets/data/books.json + Admin Panel localStorage (janyx_books)
+        // ==============================================
+        async function initStudyMaterials() {
+          const grid = document.getElementById('materialsGrid');
+          if (!grid) return;
+
+          let allBooks = [];
+
+          // 1. Fetch default curated materials from assets/data/books.json
+          try {
+            const res = await fetch('assets/data/books.json');
+            if (res.ok) {
+              const data = await res.json();
+              if (Array.isArray(data)) allBooks = data;
+            }
+          } catch (err) {
+            console.warn('Could not load assets/data/books.json', err);
+          }
+
+          // 2. Merge newly published books & Google Drive links from Admin Panel (localStorage)
+          try {
+            const localBooks = JSON.parse(localStorage.getItem('janyx_books') || '[]');
+            if (Array.isArray(localBooks) && localBooks.length > 0) {
+              localBooks.forEach(lb => {
+                // If not already present in allBooks, prepend to show newest first
+                if (!allBooks.some(b => b.id === lb.id || (b.title === lb.title && b.link === lb.link))) {
+                  allBooks.unshift(lb);
+                }
+              });
+            }
+          } catch (e) {
+            console.warn('LocalStorage error reading books', e);
+          }
+
+          // Helper to map boards to tabs
+          function getCategory(board) {
+            const b = (board || '').toLowerCase();
+            if (b.includes('ssc') || b.includes('hsc') || b.includes('state')) return 'state';
+            if (b.includes('jee') || b.includes('neet') || b.includes('cet') || b.includes('mht')) return 'entrance';
+            if (b.includes('ib') || b.includes('cambridge') || b.includes('igcse') || b.includes('a-level') || b.includes('caie')) return 'international';
+            if (b.includes('cbse') || b.includes('icse') || b.includes('isc')) return 'national';
+            return 'other';
+          }
+
+          function renderBooks(filter = 'all') {
+            const filtered = filter === 'all'
+              ? allBooks
+              : allBooks.filter(b => getCategory(b.board) === filter);
+
+            if (filtered.length === 0) {
+              grid.innerHTML = `
+                <div style="grid-column: 1 / -1; text-align: center; padding: 48px 20px; background: #F8FAFC; border-radius: 20px; border: 1.5px dashed var(--border);">
+                  <i class="fa-solid fa-folder-open" style="font-size: 40px; color: #94A3B8; margin-bottom: 12px; display: block;"></i>
+                  <h4 style="font-size: 18px; color: var(--secondary); margin-bottom: 6px;">No resources in this category yet</h4>
+                  <p style="color: var(--muted); font-size: 14px; margin-bottom: 16px;">Contact our mentors to get instant Google Drive access to these materials.</p>
+                  <a href="https://wa.me/919082315311?text=Hello%20JANYX%20EDU%20HUB%2C%20I%20am%20looking%20for%20study%20material%20for%20${encodeURIComponent(filter)}" target="_blank" class="btn btn--outline" style="font-size: 13.5px;"><i class="fa-brands fa-whatsapp"></i> Inquire via WhatsApp</a>
+                </div>
+              `;
+              return;
+            }
+
+            grid.innerHTML = filtered.map(b => {
+              const isDrive = (b.link || '').includes('drive.google.com') || (b.link || '').includes('docs.google.com');
+              const driveUrl = b.link && b.link !== '#' ? b.link : 'https://drive.google.com/';
+              return `
+                <article class="mat-card" data-aos="fade-up">
+                  <div class="mat-card__head">
+                    <div class="mat-card__icon ${isDrive ? 'drive' : ''}">
+                      <i class="${isDrive ? 'fa-brands fa-google-drive' : 'fa-solid fa-file-lines'}"></i>
+                    </div>
+                    <div class="mat-card__badges">
+                      <span class="mat-badge mat-badge--board">${b.board || 'Curriculum Guide'}</span>
+                      ${b.grade ? `<span class="mat-badge mat-badge--grade">${b.grade}</span>` : ''}
+                      ${b.subject ? `<span class="mat-badge mat-badge--subject">${b.subject}</span>` : ''}
+                    </div>
+                  </div>
+                  <h3 class="mat-card__title">${b.title}</h3>
+                  <div class="mat-card__foot">
+                    <a href="${driveUrl}" target="_blank" rel="noopener noreferrer" class="btn-drive">
+                      <i class="fa-brands fa-google-drive"></i>
+                      <span>Open on Google Drive</span>
+                      <i class="fa-solid fa-arrow-up-right-from-square" style="font-size: 11px; margin-left: 4px;"></i>
+                    </a>
+                  </div>
+                </article>
+              `;
+            }).join('');
+          }
+
+          renderBooks('all');
+
+          // Filter tab switching
+          document.querySelectorAll('.mat-tab').forEach(tab => {
+            tab.addEventListener('click', () => {
+              document.querySelectorAll('.mat-tab').forEach(t => t.classList.remove('active'));
+              tab.classList.add('active');
+              renderBooks(tab.getAttribute('data-filter'));
+            });
+          });
+        }
+
+        initStudyMaterials();
       });
     </script>
 </body>

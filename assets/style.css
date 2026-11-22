@@ -2630,3 +2630,203 @@ html, body {
 .drawer__foot .drawer__contact a:hover {
   color: var(--accent) !important;
 }
+
+/* ==========================================================================
+   STUDY MATERIALS & GOOGLE DRIVE RESOURCES SECTION
+   ========================================================================== */
+.materials-section {
+  position: relative;
+  background: #FFFFFF;
+  padding: 80px 0;
+  border-top: 1px solid var(--border);
+  border-bottom: 1px solid var(--border);
+}
+
+.materials-tabs {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 10px;
+  margin-bottom: 36px;
+}
+
+.mat-tab {
+  border: 1.5px solid var(--border);
+  background: #F8FAFC;
+  color: var(--secondary);
+  font-family: var(--font-head);
+  font-size: 14px;
+  font-weight: 600;
+  padding: 10px 18px;
+  border-radius: 999px;
+  cursor: pointer;
+  transition: all 0.25s ease;
+}
+
+.mat-tab:hover {
+  background: #EEF2F6;
+  border-color: var(--secondary);
+}
+
+.mat-tab.active {
+  background: var(--primary);
+  color: #FFFFFF;
+  border-color: var(--primary);
+  box-shadow: 0 4px 14px rgba(11, 27, 61, 0.25);
+}
+
+.materials-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  gap: 24px;
+}
+
+.mat-card {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  background: #FFFFFF;
+  border: 1.5px solid var(--border);
+  border-radius: 20px;
+  padding: 24px;
+  box-shadow: 0 6px 20px rgba(15, 42, 61, 0.05);
+  transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
+}
+
+.mat-card:hover {
+  transform: translateY(-6px);
+  border-color: rgba(212, 175, 55, 0.5);
+  box-shadow: 0 16px 36px rgba(11, 27, 61, 0.12);
+}
+
+.mat-card__head {
+  display: flex;
+  align-items: flex-start;
+  gap: 16px;
+  margin-bottom: 16px;
+}
+
+.mat-card__icon {
+  width: 52px;
+  height: 52px;
+  border-radius: 14px;
+  background: #F0FDF4;
+  border: 1px solid #BBF7D0;
+  color: #16A34A;
+  display: grid;
+  place-items: center;
+  font-size: 24px;
+  flex-shrink: 0;
+  box-shadow: 0 4px 10px rgba(22, 163, 74, 0.1);
+}
+
+.mat-card__icon.drive {
+  background: #EFF6FF;
+  border: 1px solid #BFDBFE;
+  color: #2563EB;
+}
+
+.mat-card__badges {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.mat-badge {
+  display: inline-block;
+  font-size: 11px;
+  font-weight: 700;
+  padding: 3px 10px;
+  border-radius: 6px;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.mat-badge--board {
+  background: #F1F5F9;
+  color: #0F172A;
+  border: 1px solid #E2E8F0;
+}
+
+.mat-badge--subject {
+  background: rgba(212, 175, 55, 0.12);
+  color: #92720D;
+  border: 1px solid rgba(212, 175, 55, 0.3);
+}
+
+.mat-badge--grade {
+  background: #F0FDF4;
+  color: #15803D;
+  border: 1px solid #DCFCE7;
+}
+
+.mat-card__title {
+  font-family: var(--font-head);
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--secondary);
+  line-height: 1.35;
+  margin-bottom: 14px;
+  flex-grow: 1;
+}
+
+.mat-card__foot {
+  margin-top: auto;
+  padding-top: 18px;
+  border-top: 1px dashed var(--border);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.btn-drive {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 12px 18px;
+  border-radius: 10px;
+  background: linear-gradient(135deg, #0B1B3D 0%, #1A3E72 100%);
+  color: #FFFFFF !important;
+  font-family: var(--font-head);
+  font-size: 13.5px;
+  font-weight: 700;
+  text-decoration: none !important;
+  transition: transform 0.25s ease, box-shadow 0.25s ease, background 0.25s ease;
+  box-shadow: 0 4px 12px rgba(11, 27, 61, 0.2);
+  width: 100%;
+  justify-content: center;
+}
+
+.btn-drive:hover {
+  transform: translateY(-2px);
+  background: linear-gradient(135deg, #D4AF37 0%, #B38F1E 100%);
+  color: #0B1B3D !important;
+  box-shadow: 0 8px 20px rgba(212, 175, 55, 0.35);
+}
+
+.materials-notice {
+  margin-top: 40px;
+  padding: 24px 28px;
+  border-radius: 16px;
+  background: #F8FAFC;
+  border: 1.5px dashed #CBD5E1;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+  flex-wrap: wrap;
+}
+
+@media (max-width: 768px) {
+  .materials-grid {
+    grid-template-columns: 1fr !important;
+  }
+  .materials-notice {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  .materials-notice .btn {
+    width: 100%;
+    justify-content: center;
+  }
+}

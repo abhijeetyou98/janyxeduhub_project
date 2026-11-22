@@ -624,7 +624,22 @@
         <div class="card">
           <div class="card-head">
             <h2>Recommended Books, Worksheets & Syllabus Guides</h2>
-            <button class="btn btn-primary" onclick="openBookModal()"><i class="fa-solid fa-plus"></i> Add New Book / Material</button>
+            <div style="display: flex; gap: 10px; flex-wrap: wrap;">
+              <a href="../index.html#materials" target="_blank" class="btn btn-outline" style="text-decoration:none;"><i class="fa-solid fa-arrow-up-right-from-square"></i> View on Live Website</a>
+              <button class="btn btn-primary" onclick="openBookModal()"><i class="fa-solid fa-plus"></i> Add New Book / Material</button>
+            </div>
+          </div>
+
+          <!-- Website Google Drive Sync Box -->
+          <div style="background: #F8FAFC; border: 1.5px solid var(--border); border-radius: 12px; padding: 16px 20px; margin-bottom: 24px; display: flex; align-items: center; justify-content: space-between; gap: 16px; flex-wrap: wrap;">
+            <div>
+              <h4 style="font-size: 15px; color: var(--primary); font-weight: 700; margin-bottom: 4px;"><i class="fa-brands fa-google-drive" style="color: #2563EB;"></i> Google Drive Links &amp; Website Sync</h4>
+              <p style="font-size: 13px; color: var(--muted); margin: 0;">Any Drive links published here appear instantly on your website. To synchronize permanently for all students across all devices, you can also export the updated dataset.</p>
+            </div>
+            <div style="display: flex; gap: 10px; flex-wrap: wrap;">
+              <button class="btn btn-outline" onclick="downloadBooksJSON()"><i class="fa-solid fa-download"></i> Download books.json</button>
+              <button class="btn btn-outline" onclick="copyBooksJSON()"><i class="fa-solid fa-copy"></i> Copy JSON</button>
+            </div>
           </div>
           <div style="overflow-x: auto;">
             <table>
@@ -769,28 +784,34 @@
           <div class="form-group">
             <label class="form-label">Curriculum / Board *</label>
             <select id="bookBoard" class="form-control" required>
-              <option value="International Baccalaureate (IB)">IB (PYP/MYP/DP)</option>
-              <option value="Cambridge CAIE (IGCSE/A-Level)">Cambridge IGCSE / A-Levels</option>
+              <option value="HSC (Maharashtra State Board)">HSC (Maharashtra State Board - Class 11/12)</option>
+              <option value="SSC (Maharashtra State Board)">SSC (Maharashtra State Board - Class 10)</option>
+              <option value="JEE (Main & Advanced)">JEE Main &amp; Advanced (IIT / NIT)</option>
+              <option value="NEET-UG (Medical Entrance)">NEET-UG (Medical Entrance)</option>
+              <option value="MHT-CET (Engineering / Pharmacy)">MHT-CET (State Entrance)</option>
+              <option value="International Baccalaureate (IB)">IB (PYP / MYP / DP)</option>
+              <option value="Cambridge (IGCSE & A Levels)">Cambridge IGCSE / A-Levels</option>
               <option value="CBSE Board">CBSE Board</option>
               <option value="ICSE / ISC Board">ICSE / ISC</option>
-              <option value="American Curriculum & AP">American & AP</option>
-              <option value="UK National Curriculum">UK Curriculum</option>
+              <option value="American Curriculum & AP">American &amp; AP</option>
+              <option value="General Reference / Worksheets">General Reference / Worksheets</option>
             </select>
           </div>
           <div class="form-group">
             <label class="form-label">Grade / Level *</label>
-            <input type="text" id="bookGrade" class="form-control" placeholder="e.g. Grade 11-12" required>
+            <input type="text" id="bookGrade" class="form-control" placeholder="e.g. Class 12 / Grade 11-12" required>
           </div>
         </div>
         <div class="form-group">
           <label class="form-label">Subject *</label>
-          <input type="text" id="bookSubject" class="form-control" placeholder="e.g. Physics / Mathematics" required>
+          <input type="text" id="bookSubject" class="form-control" placeholder="e.g. Physics / Mathematics / Chemistry" required>
         </div>
         <div class="form-group">
-          <label class="form-label">Resource / Download / Drive URL</label>
-          <input type="url" id="bookLink" class="form-control" placeholder="https://drive.google.com/..." value="#">
+          <label class="form-label">Google Drive Link / Download URL *</label>
+          <input type="text" id="bookLink" class="form-control" placeholder="https://drive.google.com/..." required>
+          <small style="color: var(--muted); font-size: 11.5px; display: block; margin-top: 4px;">Paste your Google Drive link or resource URL (Ensure Drive folder access is 'Anyone with link can view').</small>
         </div>
-        <button type="submit" class="btn btn-gold" style="width: 100%;">Save Book</button>
+        <button type="submit" class="btn btn-gold" style="width: 100%;"><i class="fa-solid fa-cloud-arrow-up"></i> Publish Study Material</button>
       </form>
     </div>
   </div>
@@ -883,13 +904,24 @@
       }
 
       if (!localStorage.getItem('janyx_books')) {
-        const sampleBooks = [
-          { id: 1, title: 'Oxford IB Mathematics Analysis & Approaches HL', board: 'International Baccalaureate (IB)', grade: 'Grade 11 - 12', subject: 'Mathematics HL', link: '#' },
-          { id: 2, title: 'Cambridge IGCSE Physics Coursebook (David Sang)', board: 'Cambridge CAIE (IGCSE/A-Level)', grade: 'Grade 9 - 10', subject: 'Physics (0625)', link: '#' },
-          { id: 3, title: 'NCERT Exemplar Class 12 PCM Series', board: 'CBSE Board', grade: 'Grade 12', subject: 'PCM Combined', link: '#' },
-          { id: 4, title: 'Barron’s AP Calculus AB & BC Prep Manual', board: 'American Curriculum & AP', grade: 'Grade 11 - 12', subject: 'AP Calculus', link: '#' }
-        ];
-        localStorage.setItem('janyx_books', JSON.stringify(sampleBooks));
+        fetch('../assets/data/books.json')
+          .then(res => res.json())
+          .then(data => {
+            if (Array.isArray(data) && data.length > 0) {
+              localStorage.setItem('janyx_books', JSON.stringify(data));
+              renderData();
+            }
+          })
+          .catch(() => {
+            const sampleBooks = [
+              { id: 101, title: 'HSC Class 12 Physics: Formula Book & Board Solved Papers', board: 'HSC (Maharashtra State Board)', grade: 'Class 12', subject: 'Physics', link: 'https://drive.google.com/' },
+              { id: 102, title: 'SSC Class 10 Mathematics: Model Paper Solutions', board: 'SSC (Maharashtra State Board)', grade: 'Class 10', subject: 'Mathematics', link: 'https://drive.google.com/' },
+              { id: 103, title: 'JEE Main & Advanced Mathematics: 15-Year PYQs', board: 'JEE (Main & Advanced)', grade: 'Class 11 & 12', subject: 'Mathematics', link: 'https://drive.google.com/' },
+              { id: 104, title: 'NEET-UG Biology: NCERT Diagrammatic Question Bank', board: 'NEET-UG (Medical Entrance)', grade: 'Class 11 & 12', subject: 'Biology', link: 'https://drive.google.com/' }
+            ];
+            localStorage.setItem('janyx_books', JSON.stringify(sampleBooks));
+            renderData();
+          });
       }
 
       if (!localStorage.getItem('janyx_activities')) {
@@ -998,16 +1030,24 @@
 
       // Render Books
       const booksBody = document.getElementById('booksTableBody');
-      booksBody.innerHTML = books.map((b, idx) => `
+      booksBody.innerHTML = books.map((b, idx) => {
+        const isDrive = (b.link || '').includes('drive.google.com') || (b.link || '').includes('docs.google.com');
+        return `
         <tr>
           <td><strong>${b.title}</strong></td>
           <td><span class="badge" style="background:#EEF2FF; color:#4F46E5;">${b.board}</span></td>
           <td>${b.grade}</td>
           <td>${b.subject}</td>
-          <td><a href="${b.link}" target="_blank" style="color:var(--secondary); font-weight:600;"><i class="fa-solid fa-arrow-up-right-from-square"></i> Open</a></td>
-          <td><button class="btn btn-danger" onclick="deleteBook(${idx})" style="padding:4px 8px; font-size:11px;"><i class="fa-solid fa-trash"></i></button></td>
+          <td>
+            <a href="${b.link}" target="_blank" style="color:var(--secondary); font-weight:600; display:inline-flex; align-items:center; gap:6px;">
+              <i class="${isDrive ? 'fa-brands fa-google-drive' : 'fa-solid fa-arrow-up-right-from-square'}" style="color:${isDrive ? '#2563EB' : 'var(--secondary)'};"></i>
+              ${isDrive ? 'Google Drive' : 'Open Link'}
+            </a>
+          </td>
+          <td><button class="btn btn-danger" onclick="deleteBook(${idx})" style="padding:4px 8px; font-size:11px;" title="Delete"><i class="fa-solid fa-trash"></i></button></td>
         </tr>
-      `).join('') || '<tr><td colspan="6" style="text-align:center;">No books added.</td></tr>';
+      `;
+      }).join('') || '<tr><td colspan="6" style="text-align:center; padding:20px;">No books or Drive links added yet.</td></tr>';
 
       // Render Activities
       const actBody = document.getElementById('activitiesTableBody');
@@ -1133,23 +1173,55 @@
       }
     };
 
+    // Sync / Export Books JSON
+    window.downloadBooksJSON = () => {
+      const books = localStorage.getItem('janyx_books') || '[]';
+      const blob = new Blob([books], { type: 'application/json' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = 'books.json';
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+      URL.revokeObjectURL(url);
+      showToast('Downloaded books.json! You can place this file in assets/data/books.json.');
+    };
+
+    window.copyBooksJSON = () => {
+      const books = localStorage.getItem('janyx_books') || '[]';
+      if (navigator.clipboard) {
+        navigator.clipboard.writeText(books).then(() => {
+          showToast('JSON copied to clipboard!');
+        }).catch(() => {
+          showToast('Could not copy automatically. Please use Download.');
+        });
+      } else {
+        showToast('Clipboard not supported in this browser.');
+      }
+    };
+
     // Form Submissions
     document.getElementById('bookForm').addEventListener('submit', (e) => {
       e.preventDefault();
+      let rawLink = (document.getElementById('bookLink').value || '').trim();
+      if (rawLink && !rawLink.startsWith('http://') && !rawLink.startsWith('https://')) {
+        rawLink = 'https://' + rawLink;
+      }
       const books = JSON.parse(localStorage.getItem('janyx_books') || '[]');
       books.unshift({
         id: Date.now(),
-        title: document.getElementById('bookTitle').value,
+        title: document.getElementById('bookTitle').value.trim(),
         board: document.getElementById('bookBoard').value,
-        grade: document.getElementById('bookGrade').value,
-        subject: document.getElementById('bookSubject').value,
-        link: document.getElementById('bookLink').value || '#'
+        grade: document.getElementById('bookGrade').value.trim(),
+        subject: document.getElementById('bookSubject').value.trim(),
+        link: rawLink || '#'
       });
       localStorage.setItem('janyx_books', JSON.stringify(books));
       closeModal('bookModal');
       e.target.reset();
       renderData();
-      showToast('New study material published successfully!');
+      showToast('Study Material published! Drive link is now live on this device.');
     });
 
     document.getElementById('activityForm').addEventListener('submit', (e) => {
